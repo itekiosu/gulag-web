@@ -74,6 +74,45 @@ async def settings_avatar():
 
     return await render_template('settings/avatar.html')
 
+@frontend.route('/settings/banner') # GET
+async def settings_banner():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access banner settings!', 'login')
+
+    return await render_template('settings/banner.html')
+
+@frontend.route('/settings/banner', methods=['POST']) # POST
+async def settings_banner_post():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access banner settings!', 'login')
+
+    if not session['user_data']['key']:
+        return await flash('error', 'You must be a donator or staff member to change your banner!', 'settings/banner')
+
+    APATH = f'{glob.config.gulag_path}/.data/banners'
+    EXT = glob.config.avatar_extensions
+    
+    files = await request.files
+
+    #this could possibly not look ANY uglier
+    banner_file = (files.get('banner'))
+    ava = (os.path.splitext(banner_file.filename.lower()))[1]
+    new_dir = f"{APATH}/{session['user_data']['id']}{ava}"
+    
+    if ava not in EXT:
+        return await flash('error', 'Please submit an image which is either a png, jpg, jpeg or gif file!', 'settings/banner')
+
+    # remove any old banners
+    for old_ava in EXT:
+        old_dir = f"{APATH}/{session['user_data']['id']}{old_ava}"
+        if os.path.exists(old_dir):
+            await aiofiles.os.remove(old_dir)
+
+    banner_file.save(new_dir)
+    return await flash('success', 'Your banner has been successfully changed!', 'settings/banner')
+
 @frontend.route('/settings/password') # GET
 async def settings_pw():
     # if not authenticated; render login

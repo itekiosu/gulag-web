@@ -30,13 +30,15 @@
     min-height: 215px;
     width: 100%;
     background-size: cover;
+    background-repeat: no-repeat;
     background-position: center;
     display: flex;
     align-items: flex-end;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
-    background: hsl(var(--main), 40%, 50%);
-}
+    position: relative;
+    overflow: hidden;
+  }
 
 .profile-avatar {
     width: 185px;
