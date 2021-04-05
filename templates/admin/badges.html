@@ -1,0 +1,31 @@
+{% extends 'admin/base.html' %}
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+<script src="/static/js/asserts/vue.js"></script>
+<script src="/static/js/asserts/vue-axios.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/4.0.2/timeago.min.js"></script>
+
+<div class="dashboard" id="dashboard">
+            <div class="blockdata">
+                  <a class="user-block" style="width: 1200px"> {% for b in bi %}
+                        <i title="{{ b['name'] }}" style="{{ b['colour'] }} padding-left:2px; font-size: 25px;" class="{{ b['icon'] }}"></i>  
+                    {% endfor %}
+</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="/static/js/pages/admin/dashboard.js"></script>
+
+{% endblock %}

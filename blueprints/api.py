@@ -712,9 +712,3 @@ async def get_cgrade():
     res = await glob.db.fetch(''.join(q), args)
     ape = { "userid": uid, "a": 0, "s": 0, "sh": 0, "x": 0, "xh": 0 }
     return Response(orjson.dumps(res) if res else orjson.dumps(ape), mimetype='text/json')
-
-@api.route('/get_online')
-async def api_get_online():
-    res = await glob.db.fetch('SELECT online FROM server_stats')
-    online = {"online": res['online']}
-    return Response(orjson.dumps(online), mimetype='text/json')

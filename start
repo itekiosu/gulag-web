@@ -1,0 +1,13 @@
+clear && echo Loading frontend, please wait...
+sleep 2
+
+echo Pulling latest commit from GitHub...
+git pull
+sleep 2
+
+clear
+echo Finished loading.
+sleep 2
+clear
+
+hypercorn gulag-web.py -b 127.0.0.1:9292 --reload

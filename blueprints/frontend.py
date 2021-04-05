@@ -13,6 +13,7 @@ import string
 import random
 import os
 import aiofiles.os
+import fontawesome as fa
 from PIL import Image
 from resizeimage import resizeimage
 from quart import Blueprint, render_template, redirect, request, session
@@ -451,6 +452,8 @@ async def c_leaderboard(mode, sort, mods):
 
 @frontend.route("/clans/create")
 async def create_clan():
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access the admin panel!', 'login')
     return await render_template('clans/create.html')
 
 @frontend.route("/clans/info")

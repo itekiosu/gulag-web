@@ -8,6 +8,7 @@ from objects.privileges import Privileges
 from objects.utils import flash
 
 import timeago, datetime
+import fontawesome as fa
 
 __all__ = ()
 
@@ -53,5 +54,22 @@ async def users():
 
     users = await glob.db.fetchall('SELECT * FROM users ORDER BY id ASC')
     return await render_template('admin/users.html', users=users, datetime=datetime, timeago=timeago)
+
+@admin.route('/badges')
+async def badges():
+
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access the admin panel!', 'login')
+
+    # if authenticated but not staff; render home
+    if not session['user_data']['priv'] & Privileges.Staff:
+        return await flash('error', f'Hey! You don\'t have enough clearance to access the admin panel {session["user_data"]["name"]}!', 'home')
+
+    badges = await glob.db.fetchall('SELECT * FROM badges ORDER BY id DESC')
+    defbadges = await glob.db.fetchall("SELECT id, name, colour, icon FROM badges")
+    badgeicon = await glob.db.fetchall('SELECT icon FROM badges ORDER BY id DESC')
+    return await render_template('admin/badges.html', badges=badges, bi=defbadges, bd=badgeicon, datetime=datetime, timeago=timeago)
+
 
 
