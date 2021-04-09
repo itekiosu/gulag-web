@@ -365,7 +365,7 @@ async def profile(user):
         mode = 'std'
 
     try:
-        userdata = await glob.db.fetch("SELECT name, id, priv, country, frozen, freezetime FROM users WHERE id = %s OR safe_name = %s", [user, get_safe_name(user)])
+        userdata = await glob.db.fetch("SELECT name, id, priv, country, frozen, freezetime, rainbow FROM users WHERE id = %s OR safe_name = %s", [user, get_safe_name(user)])
         freezeinfo = [userdata['frozen'], timeago.format(datetime.fromtimestamp(userdata['freezetime']), datetime.now())]
         if await glob.db.fetch('SELECT 1 FROM user_badges WHERE userid = %s', [userdata['id']]):
             badges = True
@@ -391,7 +391,7 @@ async def profile(user):
                 if session["user_data"]["id"] != userdata['id'] and not session["user_data"]["is_staff"]:
                     return await render_template('resuser.html')
                 else:
-                    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=False, dist=dist, res=res)
+                    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=False, dist=dist, res=res, rainbow=userdata['rainbow'])
             else:
                 return await render_template('resuser.html')
         else:
@@ -399,7 +399,7 @@ async def profile(user):
     except:
         return await render_template('nouser.html')
 
-    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=badges, bi=defbadges, dist=dist, res=res)
+    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=badges, bi=defbadges, dist=dist, res=res, rainbow=userdata['rainbow'])
 
 @frontend.route('/cheat/u/<user>') # GET
 async def cprofile(user):

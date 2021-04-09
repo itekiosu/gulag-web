@@ -13,10 +13,16 @@ body {
     --main: 230;
   }
   
-  .footer {
-    padding: 20px;
-    margin-top: 39px;
+  .new-footer {
+    padding: 10px;
+    margin-top: 5px;
   }
+
+  .footer-links, .footer-links:link, .footer-links:visited, .footer-links:hover, .footer-links:active {
+    color: white;
+    margin-left: 5px;
+  }
+
   
   .main-block {
     width: inherit;
@@ -121,11 +127,15 @@ body {
   
   /* navbar */
   
-  .navbar {
+ .navbar {
     position: fixed !important;
     width: 100%;
     transition: 0.2s ease;
     min-height: 0rem;
+    margin-left: -13px;
+    font-size: 12px;
+    background-color: hsla(var(--main), 50%, 50%, 0) !important;
+
   }
   
   .navbar-logo {
@@ -169,7 +179,7 @@ body {
     text-shadow: 0 2px 2px rgba(0, 0, 0, 0.12);
     font-weight: 430;
     position: relative;
-    transition: 0.3s ease;
+    transition: 1s ease;
   }
   
   .navbar-start:hover .navbar-item {
@@ -179,6 +189,7 @@ body {
   
   .navbar-item:hover,
   .navbar-item.navbar-dropdown:hover .navbar-item {
+    background-color: transparent;
     opacity: 1 !important;
   }
   
@@ -218,17 +229,29 @@ body {
   .navbar-dropdown .navbar-item {
     padding: 6px !important;
     color: white;
-    opacity: 1;
+    opacity:1;
+    background-color: transparent;
+    
   }
   
   .navbar-brand,
   .navbar-tabs {
     min-height: 0rem;
+    opacity:0;
   }
   
   .navbar-dropdown {
     width: 152px;
+    opacity:1;
+    background-color: transparent;
+    transition: 0.5s ease;
   }
+
+  .navbar-dropdown-text {
+    width: 152px;
+    opacity:1;
+  }
+
   
   .input,
   .select select,

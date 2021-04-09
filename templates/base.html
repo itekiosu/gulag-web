@@ -32,7 +32,6 @@
     <nav id="navbar" class="navbar is-primary">
         <div class="navbar-brand">
           <a class="navbar-item navbar-logo" href="/home">
-            {{ appName() }}
           </a>
 
           <a role="button" class="navbar-burger" id="navbar-burger" onclick="togglenavbar()">
@@ -52,8 +51,8 @@
               <a class="navbar-link">
                 Leaderboards
               </a>
-              <div class="navbar-dropdown">
-                <a class="navbar-item" href="/leaderboard">
+              <div class="navbar-dropdown" style="background-color: hsla(var(--main), 0%, 0%, 0) !important;">
+                <a class="navbar-item" href="/leaderboard" style="background-color: hsla(var(--main), 0%, 0%, 0) !important;" >
                   Legit Leaderboards
                 </a>
                 <a class="navbar-item" href="/cleaderboard">
@@ -66,7 +65,7 @@
               <a class="navbar-link">
                 Information
               </a>
-              <div class="navbar-dropdown">
+              <div class="navbar-dropdown" style="background-color: hsla(var(--main), 0%, 0%, 0) !important;">
                 <a class="navbar-item" href="/docs">
                   Documentation
                 </a>
@@ -89,7 +88,7 @@
           <a class="navbar-link">
             Clans
           </a>
-          <div class="navbar-dropdown">
+          <div class="navbar-dropdown" style="background-color: hsla(var(--main), 0%, 0%, 0) !important;">
             <a class="navbar-item" href="/clans/create">
             Create a Clan
           </a>
@@ -124,16 +123,12 @@
                   <a class="navbar-item" href="/clans">Clans</a>
                 </div>
               </div>
-                <a class="button is-primary" href="/logout">
+                <a class="navbar-item" href="/logout">
                   <strong>Logout</strong>
                 </a>
                 {% else %}
-                <a class="button is-light"  href="/login">
-                  Log in
-                </a>
-                <a class="button is-primary" href="/register">
-                  <strong>Sign up</strong>
-                </a>
+                <a class="navbar-item" href="/login">Login</a>
+                <a class="navbar-item" href="/register">Register</a>
                 {% endif %}
               </div>
             </div>
@@ -142,20 +137,21 @@
       </div>
     </nav>
 
+
     <!-- content -->
     <div class="container my-con">
       {% block content %}
       {% endblock %}
+       <footer class="new-footer">
+      <div class="content">
+        <span>{{ appName() }} <strong>v{{ appVersion() }}</strong></span>
+        <a class="footer-links" href="https://github.com/itekiosu/gulag-web"><i class="fa fa-github"></i></a>
+        <a class="footer-links" href="/discord"><i class="fab fa-discord"></i></a>
+      </div>
+    </footer>
     </div>
 
     <!-- footer -->
-    <footer class="footer">
-      <div class="content">
-        <span>{{ appName() }} <strong>v{{ appVersion() }}</strong></span>
-        <a class="foot-link" href="https://github.com/itekiosu/gulag-web"><i class="fa fa-github"></i> GitHub</a>
-        <a class="foot-link" href="/discord"><i class="fab fa-discord"></i> Discord</a>
-      </div>
-    </footer>
 
     <!-- main js script -->
     <script src="/static/js/main.js" crossorigin="anonymous"></script>

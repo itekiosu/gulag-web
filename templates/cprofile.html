@@ -16,10 +16,10 @@
 
 <div id="profile">
     <div class="main-block">
-        <div class="profile-bg">
+        <div class="profile-bg" style="background-image: url('https://a.{{ domain() }}/banners/{{ user['id'] }}');">
             <div class="info-block">
                 <h1 class="title">
-                    <p class="ranks">
+                    <p class="ranks {% if rainbow %}rainbowani{% endif %}">
                         <img src="https://s.kurikku.pw/flags/{{ user['country']|upper }}.png" class="profile-flag"><span class="bgf">{{ tag }} {{
                             user['name'] }}</span>
                     </p>
@@ -273,7 +273,7 @@
                     <div class="scores">
                         <div v-for="(map, index) in recentdata" class="map-single">
                             <div class="map-content1">
-                                <div @click="LoadReplay(map.id,this.mods)" class="map-data">
+                                <div @click="LoadReplay(map.id,mods)" class="map-data">
                                     <div class="map-image">
                                         <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
                                             class="map-image-picture">
@@ -289,7 +289,7 @@
                                         </div>
                                         <div class="map-date">
                                             <time>
-                                                <% map.play_time %> <a :href="map.replayurl"><i class="fas fa-download"></i></a>
+                                                <% map.play_time %> <a v-if="map.grade != 'F'" :href="map.replayurl"><i v-if="map.grade != 'F'" class="fas fa-download"></i></a>
                                             </time>
                                         </div>
                                     </div>
