@@ -7,6 +7,15 @@
     border-top-left-radius: 20px;
 }
 
+.userpage {
+    display: block;
+    width: 650px;
+    height: auto;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
 .second-block {
     background: hsl(var(--main), 12%, 15%);
 }

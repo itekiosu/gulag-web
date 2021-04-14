@@ -65,6 +65,40 @@ async def settings_profile():
 
     return await render_template('settings/profile.html')
 
+@frontend.route('/settings/userpage') # GET
+async def userpage_profile():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access profile settings!', 'login')
+
+    e = await glob.db.fetch('SELECT uptext FROM users WHERE id = %s', [session['user_data']['id']])
+    up = e['uptext']
+    return await render_template('settings/userpage.html', userpage=up)
+
+@frontend.route('/settings/userpage', methods=['POST']) # POST
+async def settings_userpage_post():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access profile settings!', 'login')
+
+    form = await request.form
+    new_up = form.get('userpage')
+
+    e = await glob.db.fetch('SELECT uptext FROM users WHERE id = %s', [session['user_data']['id']])
+    old_up = e['uptext']
+
+    if new_up == old_up:
+        return await flash('error', 'No changes have been made.', 'settings/userpage')
+
+    if new_up != '':
+        await glob.db.execute('UPDATE users SET uptext = %s WHERE id = %s', [new_up, session['user_data']['id']])
+        await glob.db.execute('UPDATE users SET userpage = 1 WHERE id = %s', [session['user_data']['id']])
+    else:
+        await glob.db.execute('UPDATE users SET uptext = %s WHERE id = %s', [new_up, session['user_data']['id']])
+        await glob.db.execute('UPDATE users SET userpage = 0 WHERE id = %s', [session['user_data']['id']])
+    
+    return await flash('success', 'Your userpage has been successfully changed!', 'settings/userpage')
+
 """ avatars """
 @frontend.route('/settings/avatar') # GET
 async def settings_avatar():

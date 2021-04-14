@@ -9,6 +9,7 @@ from enum import IntEnum
 from datetime import datetime
 import timeago
 import time
+import bbcode
 
 from objects import glob
 from objects.utils import convert_mode_int, get_safe_name
@@ -235,8 +236,10 @@ async def get_user():
         # country ranks
         'crank_vn_std, crank_vn_taiko, crank_vn_catch, crank_vn_mania, '
         'crank_rx_std, crank_rx_taiko, crank_rx_catch, '
-        'crank_ap_std '
+        'crank_ap_std, '
 
+        # userpage stuff
+        'userpage, uptext '
 
         # join users
         'FROM stats JOIN users u ON stats.id = u.id']
@@ -259,6 +262,7 @@ async def get_user():
     for e in res:
         e['creation_time'] = timeago.format(datetime.fromtimestamp(e['creation_time']), datetime.now())
         e['latest_activity'] = timeago.format(datetime.fromtimestamp(e['latest_activity']), datetime.now())
+        #e['uptext'] = bbcode.render_html(e['uptext']) | not working yet bc of dumb template formatting
     return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
 
 """ /get_user """
@@ -323,8 +327,10 @@ async def get_cuser():
         'crank_cheat_ap_std, '
 
         # timewarp value :trolley
-        'timewarp '
+        'timewarp, '
 
+        # userpage stuff
+        'userpage, uptext '
 
         # join users
         'FROM stats JOIN users u ON stats.id = u.id']
@@ -347,6 +353,7 @@ async def get_cuser():
     for e in res:
         e['creation_time'] = timeago.format(datetime.fromtimestamp(e['creation_time']), datetime.now())
         e['latest_activity'] = timeago.format(datetime.fromtimestamp(e['latest_activity']), datetime.now())
+        #e['uptext'] = bbcode.render_html(e['uptext']) | not working yet bc of dumb template formatting
     return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
 
 """ /get_scores """
