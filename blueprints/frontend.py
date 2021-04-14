@@ -756,8 +756,8 @@ async def register_post():
             # add to `users` table.
             user_id = await glob.db.execute(
                 'INSERT INTO users '
-                '(name, safe_name, email, pw_bcrypt, creation_time, latest_activity, verif) '
-                'VALUES (%s, %s, %s, %s, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 1)',
+                '(name, safe_name, email, pw_bcrypt, creation_time, latest_activity, verif, uptext) '
+                'VALUES (%s, %s, %s, %s, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 1, "")', # userpage text est gay
                 [username, safe_name, email, pw_bcrypt]
             )
 
