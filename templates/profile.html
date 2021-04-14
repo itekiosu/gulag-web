@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} Profile {% endblock %}
+{% block title %} {{ user['name'] }}'s Legit Profile {% endblock %}
 
 {% block content %}
 <script src="/static/js/asserts/vue.js"></script>
@@ -9,19 +9,18 @@
 <link rel="stylesheet" href="/static/css/pages/profile.css">
 
 <script>
-    var userid = Number("{{ user['id'] }}");
+    var userid = Number("{{ user['id'] }}"); //For text editor doesn't dizzy lmao
     var mode = '{{ mode }}';
-    var mods = '{{ mods }}'
+    var mods = '{{ mods }}';
 </script>
 
 <div id="profile">
     <div class="main-block">
-        <div class="profile-bg">
+        <div class="profile-bg" style="background-image: url('https://a.{{ domain() }}/banners/{{ user['id'] }}');">
             <div class="info-block">
                 <h1 class="title">
-                    <p class="ranks">
-                        <img src="https://s.kurikku.pw/flags/{{ user['country']|upper }}.png" class="profile-flag"><span
-                            class="bgf">{{ tag }} {{
+                    <p class="ranks {% if rainbow %}rainbowani{% endif %}">
+                        <img src="https://s.kurikku.pw/flags/{{ user['country']|upper }}.png" class="profile-flag"><span class="bgf">{{ tag }} {{
                             user['name'] }}</span>
                     </p>
                 </h1>
@@ -32,7 +31,7 @@
         </div>
         <div class="profile-flex">
             <div class="profile-avatar-area">
-                <img src="https://a.iteki.pw/{{ user['id'] }}" alt="avatar" class="rounded-avatar profile-avatar">
+                {% if dist %}<a href="/settings/avatar">{% endif %}<img src="https://a.iteki.pw/{{ user['id'] }}" alt="avatar" class="rounded-avatar profile-avatar" {% if dist %} title="Edit avatar"{% endif %}>{% if dist %}</a>{% endif %}
             </div>
             <div class="bar-selection mode-selects">
                 <div class="select-left">
@@ -63,7 +62,16 @@
             </div>
             <div class="bar-selection badge-selects">
                 <span>
-                    <!--Badges is not developing : (-->
+                    {% if freeze[0] %}
+                    <b>{{ user['name'] }} is currently frozen. Their freeze timer runs out {{ freeze[1] }}!</b>
+                    {% endif %}
+                    {% if not freeze[0] and not res %}
+                    {% if ub %}
+                    {% for b in bi %}
+                        <i title="{{ b['name'] }}" style="{{ b['colour'] }} padding-left:2px; font-size: 25px;" class="{{ b['icon'] }}"></i>  
+                    {% endfor %}
+                    {% endif %}
+                    {% endif %}
                 </span>
             </div>
         </div>
@@ -71,6 +79,7 @@
     <div class="second-block">
         <div class="columns is-marginless two-sides">
             <div class="column is-one-third">
+                {% if not res %}
                 <div class="header">
                     <div class="title">
                         <i class="fas fa-user-friends"></i> Rank
@@ -94,6 +103,7 @@
                         </tbody>
                     </table>
                 </div>
+                {% endif %}
                 <div class="header">
                     <div class="title">
                         <i class="fas fa-chart-pie"></i> Statistics
@@ -102,6 +112,9 @@
                 <div class="stats-block">
                     <table class="is-striped">
                         <tbody>
+                            <tr>
+                                <td>{{ user['name'] }} created their account <% userdata[0][`creation_time`] %>. They were last seen <% userdata[0][`latest_activity`] %>.</td>
+                            </tr>
                             <tr>
                                 <td><b>PP</b></td>
                                 <td class="right-aligned">
@@ -155,7 +168,7 @@
                                 <div class="grade-line">
                                     <div class="rank-single">
                                         <div class="map-rank rank-S">SS</div>
-                                        <div class="rank-amount"> <% gradedata.ss %> </div>
+                                        <div class="rank-amount"> <% gradedata.x %> </div>
                                     </div>
                                     <div class="rank-single">
                                         <div class="map-rank rank-XH">SS</div>
@@ -192,21 +205,6 @@
             <div class="column">
                 <div class="log-block">
                     <div class="header">
-                        <div class="title"><svg aria-hidden="true" focusable="false" data-prefix="fas"
-                                data-icon="book-open" class="svg-inline--fa fa-book-open fa-w-18" role="img"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                                <path fill="currentColor"
-                                    d="M542.22 32.05c-54.8 3.11-163.72 14.43-230.96 55.59-4.64 2.84-7.27 7.89-7.27 13.17v363.87c0 11.55 12.63 18.85 23.28 13.49 69.18-34.82 169.23-44.32 218.7-46.92 16.89-.89 30.02-14.43 30.02-30.66V62.75c.01-17.71-15.35-31.74-33.77-30.7zM264.73 87.64C197.5 46.48 88.58 35.17 33.78 32.05 15.36 31.01 0 45.04 0 62.75V400.6c0 16.24 13.13 29.78 30.02 30.66 49.49 2.6 149.59 12.11 218.77 46.95 10.62 5.35 23.21-1.94 23.21-13.46V100.63c0-5.29-2.62-10.14-7.27-12.99z">
-                                </path>
-                            </svg><!-- <i class="fas fa-trophy"></i> Font Awesome fontawesome.com --> Userpage
-                        </div>
-                    </div>
-                    <div class="stats-block">
-                        <p>Sample Text</p>
-                    </div>
-                </div>
-                <div class="log-block">
-                    <div class="header">
                         <div class="title">
                             <i class="fas fa-trophy"></i> Best Scores
                         </div>
@@ -214,25 +212,25 @@
                     <div class="scores">
                         <div v-for="(map, index) in bestdata" class="map-single">
                             <div class="map-content1">
-                                <div class="map-image">
-                                    <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
-                                        class="map-image-picture">
-                                </div>
-                                <div class="map-title-block">
-                                    <div class="map-title">
-                                        <a class="beatmap-link">
-                                            <% map.artist %> - <% map.title %> [<% map.version %>]
-                                            +<% map.mods_readable %>
-                                        </a>
+                                <div @click="LoadReplay(map.id,mods)" class="map-data">
+                                    <div class="map-image">
+                                        <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
+                                            class="map-image-picture">
                                     </div>
-                                    <div class="play-stats">
-                                        <% addCommas(map.score) %> / <% map.max_combo %>x
-                                    </div>
-                                    <div class="map-date">
-                                        <time>
-                                            <% map.play_time %> <a :href="'https://a.iteki.pw/replay/' + map.scoreid"><i
-                                                    class="fas fa-download"></i></a>
-                                        </time>
+                                    <div class="map-title-block">
+                                        <div class="map-title">
+                                            <a class="beatmap-link">
+                                                <% map.artist %> - <% map.title %> [<% map.version %>] +<% map.mods_readable %>
+                                            </a>
+                                        </div>
+                                        <div class="play-stats">
+                                            <% addCommas(map.score) %> / <% map.max_combo %>x
+                                        </div>
+                                        <div class="map-date">
+                                            <time>
+                                                <% map.play_time %> <a :href="map.replayurl"><i class="fas fa-download"></i></a>
+                                            </time>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -272,24 +270,25 @@
                     <div class="scores">
                         <div v-for="(map, index) in recentdata" class="map-single">
                             <div class="map-content1">
-                                <div class="map-image">
-                                    <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
-                                        class="map-image-picture">
-                                </div>
-                                <div class="map-title-block">
-                                    <div class="map-title">
-                                        <a class="beatmap-link">
-                                            <% map.artist %> - <% map.title %> [<% map.version %>]
-                                            +<% map.mods_readable %>
-                                        </a>
+                                <div @click="LoadReplay(map.id,mods)" class="map-data">
+                                    <div class="map-image">
+                                        <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
+                                            class="map-image-picture">
                                     </div>
-                                    <div class="play-stats">
-                                        <% addCommas(map.score) %> / <% map.max_combo %>x
-                                    </div>
-                                    <div class="map-date">
-                                        <time>
-                                            <% map.play_time %>
-                                        </time>
+                                    <div class="map-title-block">
+                                        <div class="map-title">
+                                            <a class="beatmap-link">
+                                                <% map.artist %> - <% map.title %> [<% map.version %>] +<% map.mods_readable %>
+                                            </a>
+                                        </div>
+                                        <div class="play-stats">
+                                            <% addCommas(map.score) %> / <% map.max_combo %>x
+                                        </div>
+                                        <div class="map-date">
+                                            <time>
+                                                <% map.play_time %> <a v-if="map.grade != 'F'" :href="map.replayurl"><i v-if="map.grade != 'F'" class="fas fa-download"></i></a>
+                                            </time>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -323,7 +322,7 @@
                 <div class="log-block">
                     <div class="header">
                         <div class="title">
-                            <i class="fas fa-address-book"></i> Most Beatmaps Played
+                            <i class="fas fa-address-book"></i> Most Played Beatmaps
                         </div>
                     </div>
                     <div class="beatmaps">
