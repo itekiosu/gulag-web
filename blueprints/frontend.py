@@ -13,7 +13,6 @@ import string
 import random
 import os
 import aiofiles.os
-import fontawesome as fa
 from PIL import Image
 from resizeimage import resizeimage
 from quart import Blueprint, render_template, redirect, request, session
