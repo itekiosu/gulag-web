@@ -50,9 +50,9 @@ async def home():
     rxc = await glob.db.fetch('SELECT pp, users.name, play_time FROM scores_rx_cheat LEFT JOIN users ON scores_rx_cheat.userid = users.id LEFT JOIN maps ON scores_rx_cheat.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND scores_rx_cheat.status = 2 AND scores_rx_cheat.mode = 0 AND maps.status IN (2,3,4,5) ORDER BY pp DESC LIMIT 1')
     apc = await glob.db.fetch('SELECT pp, users.name, play_time FROM scores_ap_cheat LEFT JOIN users ON scores_ap_cheat.userid = users.id LEFT JOIN maps ON scores_ap_cheat.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND scores_ap_cheat.status = 2 AND scores_ap_cheat.mode = 0 AND maps.status IN (2,3,4,5) ORDER BY pp DESC LIMIT 1')
     try:
-        return await render_template('home.html', vnpp=round(vn['pp']), vndate=timeago.format(datetime.fromtimestamp(vn['play_time'])), rxdate=timeago.format(datetime.fromtimestamp(rx['play_time'])), apdate=timeago.format(datetime.fromtimestamp(ap['play_time'])), apcdate=timeago.format(datetime.fromtimestamp(apc['play_time'])), rxcdate=timeago.format(datetime.fromtimestamp(rxc['play_time'])), vncdate=timeago.format(datetime.fromtimestamp(vnc['play_time'])), vnuser=vn['name'], rxpp=round(rx['pp']), rxuser=rx['name'], appp=round(ap['pp']), apuser=ap['name'], vnppc=round(vnc['pp']), vnuserc=vnc['name'], rxppc=round(rxc['pp']), rxuserc=rxc['name'], apppc=round(apc['pp']), apuserc=apc['name'], domain=glob.config.domain)
+        return await render_template('home.html', vnpp=round(vn['pp']), vndate=timeago.format(datetime.fromtimestamp(vn['play_time'])), rxdate=timeago.format(datetime.fromtimestamp(rx['play_time'])), apdate=timeago.format(datetime.fromtimestamp(ap['play_time'])), apcdate=timeago.format(datetime.fromtimestamp(apc['play_time'])), rxcdate=timeago.format(datetime.fromtimestamp(rxc['play_time'])), vncdate=timeago.format(datetime.fromtimestamp(vnc['play_time'])), vnuser=vn['name'], rxpp=round(rx['pp']), rxuser=rx['name'], appp=round(ap['pp']), apuser=ap['name'], vnppc=round(vnc['pp']), vnuserc=vnc['name'], rxppc=round(rxc['pp']), rxuserc=rxc['name'], apppc=round(apc['pp']), apuserc=apc['name'])
     except:
-        return await render_template('home.html', vnpp=0, vnuser="None", vndate=0, rxdate=0, apdate=0, apcdate=0, rxcdate=0, vncdate=0, rxpp=0, rxuser="None", appp=0, apuser="None", vnppc=0, vnuserc="None", rxppc=0, rxuserc="None", apppc=0, apuserc="None", domain=glob.config.domain)
+        return await render_template('home.html', vnpp=0, vnuser="None", vndate=0, rxdate=0, apdate=0, apcdate=0, rxcdate=0, vncdate=0, rxpp=0, rxuser="None", appp=0, apuser="None", vnppc=0, vnuserc="None", rxppc=0, rxuserc="None", apppc=0, apuserc="None")
 
 """ settings """
 @frontend.route('/settings') # GET
@@ -424,7 +424,7 @@ async def profile(user):
                 if session["user_data"]["id"] != userdata['id'] and not session["user_data"]["is_staff"]:
                     return await render_template('resuser.html')
                 else:
-                    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=False, dist=dist, res=res, rainbow=userdata['rainbow'], domain=glob.config.domain)
+                    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=False, dist=dist, res=res, rainbow=userdata['rainbow'])
             else:
                 return await render_template('resuser.html')
         else:
@@ -432,7 +432,7 @@ async def profile(user):
     except:
         return await render_template('nouser.html')
 
-    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=badges, bi=defbadges, dist=dist, res=res, rainbow=userdata['rainbow'], domain=glob.config.domain)
+    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=badges, bi=defbadges, dist=dist, res=res, rainbow=userdata['rainbow'])
 
 @frontend.route('/cheat/u/<user>') # GET
 async def cprofile(user):
@@ -530,7 +530,7 @@ async def create_clan():
 
 @frontend.route("/clans/info")
 async def clan_info():
-    return await render_template('clans/claninfo.html', domain=glob.config.domain)
+    return await render_template('clans/claninfo.html')
 
 @frontend.route("/clans/create", methods=['POST'])
 async def cc_post():
