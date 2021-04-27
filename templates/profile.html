@@ -32,7 +32,7 @@
         </div>
         <div class="profile-flex">
             <div class="profile-avatar-area">
-                {% if dist %}<a href="/settings/avatar">{% endif %}<img src="https://a.{{ domain }}/{{ user['id'] }}"
+                {% if dist %}<a href="/settings/avatar">{% endif %}<img src="https://a.{{ domain() }}/{{ user['id'] }}"
                         alt="avatar" class="rounded-avatar profile-avatar" {% if dist %} title="Edit avatar"
                         {% endif %}>{% if dist %}</a>{% endif %}
             </div>
