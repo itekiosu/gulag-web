@@ -1,6 +1,6 @@
 [![Discord](https://discordapp.com/api/guilds/804029976276893716/widget.png?style=shield)](https://discord.gg/ShEQgUx)
 
-# The frontend service for the modern osu! private server, [Iteki](https://iteki.pw)!
+# The frontend service for the modern osu! private server, [Iteki](https://iteki.pw), ported for use with Asahi source!
 
 ### Features
 - Fully implemented session authentication system allowing users to have a more interpersonal experience.
