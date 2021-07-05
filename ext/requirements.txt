@@ -10,3 +10,4 @@ aiohttp
 pillow
 python-resize-image
 async_sender
+asyncpg

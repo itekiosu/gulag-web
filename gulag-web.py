@@ -1,10 +1,10 @@
 #!/usr/bin/python3.9
 # -*- coding: utf-8 -*-
 
-import quart.flask_patch # https://pgjones.gitlab.io/quart/how_to_guides/flask_extensions.html
 import os
+import asyncpg
 from quart import Quart, render_template, request
-from cmyui import AsyncSQLPool, Version, Ansi, log
+from cmyui import Version, Ansi, log
 
 from objects import glob
 
@@ -19,9 +19,8 @@ app.config["SESSION_PERMANENT"] = True
 
 @app.before_serving
 async def mysql_conn() -> None:
-    glob.db = AsyncSQLPool()
-    await glob.db.connect(glob.config.mysql)
-    log('Connected to MySQL!', Ansi.LGREEN)
+    glob.db = await asyncpg.connect(user=glob.config.postgres['user'], password=glob.config.postgres['password'], database=glob.config.postgres['db'], host=glob.config.postgres['host'])
+    log('Connected to PostgreSQL!', Ansi.LGREEN)
 
 _version = repr(version)
 @app.before_serving
@@ -50,10 +49,8 @@ def domain() -> str:
 # Import external blueprints & add to app
 from blueprints.frontend import frontend
 from blueprints.admin import admin
-from blueprints.api import api
 app.register_blueprint(frontend)
 app.register_blueprint(admin, url_prefix='/admin')
-app.register_blueprint(api, url_prefix='/api')
 
 """ error 404 """
 @app.errorhandler(404)

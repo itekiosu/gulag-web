@@ -51,7 +51,7 @@ cd gulag-web
 git submodule init && git submodule update
 
 # Install requirements from pip.
-python3.9 -m pip install -r requirements.txt
+python3.9 -m pip install -r ext/requirements.txt
 
 # Add and configure gulag-web's NGINX 
 # config to your nginx/sites-enabled.

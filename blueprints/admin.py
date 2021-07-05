@@ -8,7 +8,6 @@ from objects.privileges import Privileges
 from objects.utils import flash
 
 import timeago, datetime
-import fontawesome as fa
 
 __all__ = ()
 

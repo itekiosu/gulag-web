@@ -6,8 +6,8 @@ app_name = 'gulag-web'
 # secret key
 secret_key = 'changeme'
 
-# mysql credentials
-mysql = {
+# postgres credentials
+postgres = {
     'db': 'gulag',
     'host': 'localhost',
     'user': 'cmyui',
@@ -37,8 +37,8 @@ hcaptcha_sitekey = ''
 # captcha **account key** for **your account** - don't mix this and the site key up!
 hcaptcha_key = ''
 
-# file location of your gulag instance
-gulag_path = '/home/iteki/gulag'
+# file location of your asahi instance
+asahi_path = '/home/iteki/asahi'
 
 # allowed file extensions for avatars, default is compatible with iteki's gulag instance
 avatar_extensions = ['.jpg', '.jpeg', '.png', '.gif']
